@@ -40,7 +40,7 @@ internal static class ServiceRegistrator
         });        
         
         
-        builder.Services.AddFastEndpoints();
+        builder.Services.AddFastEndpoints(t=> t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
         builder.Services.AddAuthenticationJWTBearer(builder.Configuration["JWT:Key"]);
         builder.Services.AddAuthorization(t =>
         {

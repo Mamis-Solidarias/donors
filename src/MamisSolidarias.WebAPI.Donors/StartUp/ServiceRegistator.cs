@@ -1,3 +1,4 @@
+using EntityFramework.Exceptions.PostgreSQL;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
@@ -48,9 +49,14 @@ internal static class ServiceRegistrator
         
         
         builder.Services.AddDbContext<DonorsDbContext>(
-            t => 
-                t.UseNpgsql(connectionString, r=> r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"))
+            t =>
+            {
+                t.UseNpgsql(connectionString, r => { r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"); })
                     .EnableSensitiveDataLogging(!builder.Environment.IsProduction())
+                    .EnableDetailedErrors(!builder.Environment.IsProduction());
+                t.UseExceptionProcessor();
+            }
+
         );
 
         if (!builder.Environment.IsProduction())

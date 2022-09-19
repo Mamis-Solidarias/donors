@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="6.0.3" />
         <PackageReference Include="FastEndpoints" Version="5.1.0" />
         <PackageReference Include="FastEndpoints.Generator" Version="5.1.0">
           <PrivateAssets>all</PrivateAssets>

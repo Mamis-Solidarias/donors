@@ -2,6 +2,7 @@ using EntityFramework.Exceptions.PostgreSQL;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
+using HotChocolate.Diagnostics;
 using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Utils.Security;
 using Microsoft.EntityFrameworkCore;
@@ -56,10 +57,26 @@ internal static class ServiceRegistrator
                     .EnableDetailedErrors(!builder.Environment.IsProduction());
                 t.UseExceptionProcessor();
             }
-
         );
+        
+        
+        builder.Services.AddGraphQLServer()
+            .AddQueryType<Queries.Donors>()
+            .AddInstrumentation(t =>
+            {
+                t.Scopes = ActivityScopes.All;
+                t.IncludeDocument = true;
+                t.RequestDetails = RequestDetails.All; 
+                t.IncludeDataLoaderKeys = true;
+            })
+            .AddAuthorization()
+            .AddFiltering()
+            .AddSorting()
+            .RegisterDbContext<DonorsDbContext>();
 
         if (!builder.Environment.IsProduction())
             builder.Services.AddSwaggerDoc(t=> t.Title = "Donors");
+
+        builder.Services.AddCors();
     }
 }

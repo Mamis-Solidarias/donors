@@ -13,7 +13,7 @@ namespace MamisSolidarias.WebAPI.Donors.Endpoints;
 
 internal sealed class DonorsPostTest
 {
-    private readonly Mock<DbService> _mockDbService = new();
+    private readonly Mock<Donors.DbAccess> _mockDbService = new();
     private Endpoint _endpoint = null!;
 
     [SetUp]
@@ -107,7 +107,7 @@ internal sealed class DonorsPostTest
         // Arrange
         Donor donor = DataFactory.GetDonor().WithId(0);
         _mockDbService.Setup(t => t.CreateDonor(
-                It.Is<Donor>(r => r.Email == donor.Email),
+                It.Is<Donor>(r => r.Email == donor.Email!.ToLowerInvariant()),
                 It.IsAny<CancellationToken>()
             )
         ).ThrowsAsync(new UniqueConstraintException());
@@ -138,32 +138,6 @@ internal sealed class DonorsPostTest
                 It.IsAny<CancellationToken>()
             )
         ).ThrowsAsync(new UniqueConstraintException());
-
-        var req = new Request
-        {
-            Email = donor.Email,
-            Name = donor.Name,
-            IsGodFather = donor.IsGodFather,
-            Phone = donor.Phone,
-        };
-
-        // Act
-        await _endpoint.HandleAsync(req, default);
-
-        // Assert
-        _endpoint.HttpContext.Response.StatusCode.Should().Be(400);
-    }
-    
-    [Test]
-    public async Task InvalidDonor_LongName_ShouldReturnError()
-    {
-        // Arrange
-        Donor donor = DataFactory.GetDonor().WithId(0);
-        _mockDbService.Setup(t => t.CreateDonor(
-                It.Is<Donor>(r => r.Name == donor.Name),
-                It.IsAny<CancellationToken>()
-            )
-        ).ThrowsAsync(new MaxLengthExceededException());
 
         var req = new Request
         {

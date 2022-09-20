@@ -3,12 +3,12 @@ using MamisSolidarias.Infrastructure.Donors.Models;
 
 namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
 
-internal class DbService
+internal class DbAccess
 {
     private readonly DonorsDbContext? _dbContext;
 
-    public DbService() { }
-    public DbService(DonorsDbContext dbContext)
+    public DbAccess() { }
+    public DbAccess(DonorsDbContext dbContext)
     {
         _dbContext = dbContext;
     }

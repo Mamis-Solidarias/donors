@@ -6,7 +6,7 @@ namespace MamisSolidarias.HttpClient.Donors.Models;
 internal class DonorsConfiguration
 {
     /// <summary>
-    /// Base Url of the Users' service
+    /// Base Url of the Donors' service
     /// </summary>
     public string? BaseUrl { get; set; } = null;
     

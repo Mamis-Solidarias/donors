@@ -1,7 +1,9 @@
+using EntityFramework.Exceptions.PostgreSQL;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using MamisSolidarias.Infrastructure.Donors;
+using MamisSolidarias.Utils.Security;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -23,29 +25,41 @@ internal static class ServiceRegistrator
         {
             tracerProviderBuilder
                 .AddConsoleExporter()
-                // .AddOtlpExporter(opt =>
-                // {
-                //     opt.Endpoint = new Uri("https://otlp.nr-data.net");
-                //     opt.Headers["api-key"] = "";
-                //     opt.Protocol = OtlpExportProtocol.HttpProtobuf;
-                // })
+                .AddJaegerExporter()
                 .AddSource(builder.Configuration["Service:Name"])
                 .SetResourceBuilder(
                     ResourceBuilder.CreateDefault()
-                        .AddService(serviceName: builder.Configuration["Service:Name"], serviceVersion: builder.Configuration["Service:Version"]))
+                        .AddService(
+                            serviceName: builder.Configuration["Service:Name"], 
+                            serviceVersion: builder.Configuration["Service:Version"]
+                            )
+                    )
                 .AddHttpClientInstrumentation()
                 .AddAspNetCoreInstrumentation()
                 .AddEntityFrameworkCoreInstrumentation();
         });        
-        builder.Services.AddFastEndpoints();
+        
+        
+        builder.Services.AddFastEndpoints(t=> t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
         builder.Services.AddAuthenticationJWTBearer(builder.Configuration["JWT:Key"]);
+        builder.Services.AddAuthorization(t =>
+        {
+            t.ConfigurePolicies(Services.Donors);
+        });
+        
+        
         builder.Services.AddDbContext<DonorsDbContext>(
-            t => 
-                t.UseNpgsql(connectionString, r=> r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"))
+            t =>
+            {
+                t.UseNpgsql(connectionString, r => { r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"); })
                     .EnableSensitiveDataLogging(!builder.Environment.IsProduction())
+                    .EnableDetailedErrors(!builder.Environment.IsProduction());
+                t.UseExceptionProcessor();
+            }
+
         );
 
         if (!builder.Environment.IsProduction())
-            builder.Services.AddSwaggerDoc();
+            builder.Services.AddSwaggerDoc(t=> t.Title = "Donors");
     }
 }

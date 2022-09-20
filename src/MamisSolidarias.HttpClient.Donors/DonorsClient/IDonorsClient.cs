@@ -1,8 +1,10 @@
-using MamisSolidarias.WebAPI.Donors.Endpoints.Test;
 
 namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
 public interface IDonorsClient
 {
-    Task<Response?> GetTestAsync(Request requestParameters, CancellationToken token = default);
+    Task<MamisSolidarias.WebAPI.Donors.Endpoints.Donors.Response?> CreateDonor(
+        MamisSolidarias.WebAPI.Donors.Endpoints.Donors.Request requestParameters,
+        CancellationToken token = default
+    );
 }

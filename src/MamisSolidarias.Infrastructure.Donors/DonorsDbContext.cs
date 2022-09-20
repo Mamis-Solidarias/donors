@@ -5,7 +5,8 @@ namespace MamisSolidarias.Infrastructure.Donors;
 
 public class DonorsDbContext: DbContext
 {
-    public DbSet<User> Users { get; set; }
+    public DbSet<Donor> Donors { get; set; }
+
     public DonorsDbContext(DbContextOptions<DonorsDbContext> options) : base(options)
     {
     }
@@ -13,20 +14,7 @@ public class DonorsDbContext: DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(
-            model =>
-            {
-                model.HasKey(t => t.Id);
-                model.Property(t => t.Id).ValueGeneratedOnAdd();
-                model.Property(t => t.Name)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-            }
-        );
-
-
-
+        new DonorCondfigurator().Configure(modelBuilder.Entity<Donor>());
     }
     
 }

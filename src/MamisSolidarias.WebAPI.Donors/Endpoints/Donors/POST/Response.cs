@@ -1,5 +1,5 @@
 
-namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
+namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST;
 
 /// <summary>
 /// Response

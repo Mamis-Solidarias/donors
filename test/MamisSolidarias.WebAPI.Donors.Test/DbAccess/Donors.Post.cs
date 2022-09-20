@@ -14,7 +14,7 @@ namespace MamisSolidarias.WebAPI.Donors.DbAccess;
 internal sealed class DonorsPost
 {
     private DonorsDbContext _dbContext = null!;
-    private Endpoints.Donors.DbAccess _dbAccess = null!;
+    private Endpoints.Donors.POST.DbAccess _dbAccess = null!;
     private DataFactory _dataFactory = null!;
 
     [SetUp]

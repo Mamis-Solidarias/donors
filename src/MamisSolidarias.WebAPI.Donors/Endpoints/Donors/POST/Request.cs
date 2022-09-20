@@ -1,7 +1,7 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
+namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST;
 
 public class Request
 {

@@ -1,7 +1,7 @@
 using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Infrastructure.Donors.Models;
 
-namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
+namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST;
 
 internal class DbAccess
 {

@@ -4,7 +4,7 @@ using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Infrastructure.Donors.Models;
 using MamisSolidarias.WebAPI.Donors.Extensions;
 
-namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
+namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST;
 
 internal sealed class Endpoint : Endpoint<Request, Response>
 {

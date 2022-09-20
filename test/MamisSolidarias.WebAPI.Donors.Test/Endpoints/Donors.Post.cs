@@ -1,10 +1,11 @@
+
 using System.Threading;
 using System.Threading.Tasks;
 using EntityFramework.Exceptions.Common;
 using FluentAssertions;
 using MamisSolidarias.Infrastructure.Donors.Models;
 using MamisSolidarias.Utils.Test;
-using MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
+using MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST;
 using MamisSolidarias.WebAPI.Donors.Utils;
 using Moq;
 using NUnit.Framework;
@@ -13,7 +14,7 @@ namespace MamisSolidarias.WebAPI.Donors.Endpoints;
 
 internal sealed class DonorsPostTest
 {
-    private readonly Mock<Donors.DbAccess> _mockDbService = new();
+    private readonly Mock<Donors.POST.DbAccess> _mockDbService = new();
     private Endpoint _endpoint = null!;
 
     [SetUp]

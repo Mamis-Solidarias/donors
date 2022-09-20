@@ -8,7 +8,8 @@
     &lt;TestId&gt;NUnit3x::C438A7D2-F3A0-4C5B-AF24-B4800FC1229F::net6.0::MamisSolidarias.WebAPI.Donors.Endpoints.DonorsPostTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e475ef30_002D4d8d_002D460b_002Da3b7_002D2861f0ac0bbd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d9a9ff0a_002Df4ad_002D458c_002Da48c_002D43e15b255417/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
+	
 	</wpf:ResourceDictionary>

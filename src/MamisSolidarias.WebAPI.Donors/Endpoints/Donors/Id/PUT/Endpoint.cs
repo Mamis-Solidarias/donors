@@ -16,7 +16,7 @@ internal sealed class Endpoint : Endpoint<Request, Response>
 
     public override void Configure()
     {
-        Put("donors/{id]");
+        Put("donors/{id}");
         Policies(MamisSolidarias.Utils.Security.Policies.CanWrite);
     }
 

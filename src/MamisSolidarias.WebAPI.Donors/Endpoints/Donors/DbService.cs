@@ -13,7 +13,7 @@ internal class DbService
         _dbContext = dbContext;
     }
 
-    public async Task CreateDonor(Donor donor, CancellationToken ct)
+    public virtual async Task CreateDonor(Donor donor, CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(_dbContext);
         await _dbContext.Donors.AddAsync(donor, ct);

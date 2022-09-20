@@ -2,7 +2,6 @@ using EntityFramework.Exceptions.Common;
 using FastEndpoints;
 using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Infrastructure.Donors.Models;
-using MamisSolidarias.Utils.Security;
 
 namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
 
@@ -23,7 +22,7 @@ internal sealed class Endpoint : Endpoint<Request, Response>
 
     public override async Task HandleAsync(Request req, CancellationToken ct)
     {
-        var donor = Map(req, User.GetUserId());
+        var donor = Map(req);
         try
         {
             await _db.CreateDonor(donor, ct);
@@ -41,15 +40,14 @@ internal sealed class Endpoint : Endpoint<Request, Response>
         }
     }
 
-    private static Donor Map(Request req, int? userId)
+    private static Donor Map(Request req)
     {
         return new Donor
         {
             Email = req.Email,
             Name = req.Name,
             Phone = req.Phone,
-            IsGodFather = req.IsGodFather,
-            CreatedBy = userId ?? throw new UnauthorizedAccessException()
+            IsGodFather = req.IsGodFather
         };
     }
 }

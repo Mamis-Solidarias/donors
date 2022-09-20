@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
-public partial class DonorsClient : IDonorsClient
+public sealed partial class DonorsClient : IDonorsClient
 {
     private readonly HeaderService _headerService;
     private readonly IHttpClientFactory _httpClientFactory;

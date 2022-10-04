@@ -2,13 +2,25 @@ namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
 public interface IDonorsClient
 {
-    Task<MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST.Response?> CreateDonor(
-        MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST.Request requestParameters,
-        CancellationToken token = default
+    /// <summary>
+    /// It creates a new donor
+    /// </summary>
+    /// <param name="requestParameters"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    Task<DonorsClient.CreateDonorResponse?> CreateDonor(
+        DonorsClient.CreateDonorRequest requestParameters,
+        CancellationToken token
     );
-    
-    Task<MamisSolidarias.WebAPI.Donors.Endpoints.Donors.Id.PUT.Response?> UpdateDonor(
-        MamisSolidarias.WebAPI.Donors.Endpoints.Donors.Id.PUT.Request requestParameters,
-        CancellationToken token = default
+
+    /// <summary>
+    /// It updates an existing donor
+    /// </summary>
+    /// <param name="requestParameters"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    Task<DonorsClient.UpdateDonorResponse?> UpdateDonor(
+        DonorsClient.UpdateDonorRequest requestParameters,
+        CancellationToken token
     );
 }

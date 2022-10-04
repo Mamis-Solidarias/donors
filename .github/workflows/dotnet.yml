@@ -3,6 +3,11 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - src/**
+      - test/**
+      - MamisSolidarias.Donors.sln
+      
   pull_request:
     branches: [ "main" ]
     paths:

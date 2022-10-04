@@ -16,4 +16,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ldellisola/verify-nuget-package-version@v1.2.1
         with:
-            PROJECT_FILE_PATH: 'src/MamisSolidarias.HttpClient.Users/MamisSolidarias.HttpClient.Users.csproj'
+            PROJECT_FILE_PATH: 'src/MamisSolidarias.HttpClient.Donors/MamisSolidarias.HttpClient.Donors.csproj'

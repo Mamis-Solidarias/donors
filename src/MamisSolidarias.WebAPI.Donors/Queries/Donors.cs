@@ -10,8 +10,8 @@ public class Donors
 {
     [Authorize(Policy = "CanRead")]
     [UsePaging]
-    [HotChocolate.Data.UseFiltering]
-    [HotChocolate.Data.UseSorting]
+    [UseFiltering]
+    [UseSorting]
     public IQueryable<Donor> GetDonors([FromServices] DonorsDbContext dbContext) =>
         dbContext.Donors;
 }

@@ -1,11 +1,8 @@
-using MamisSolidarias.WebAPI.Donors.Endpoints.Donors;
-using MamisSolidarias.WebAPI.Donors.Endpoints.Donors.POST;
-
 namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
-public partial class DonorsClient
+partial class DonorsClient
 {
-    public Task<Response?> CreateDonor(Request req, CancellationToken token = default)
+    public Task<CreateDonorResponse?> CreateDonor(CreateDonorRequest req, CancellationToken token = default)
         => CreateRequest(HttpMethod.Post, "donors")
             .WithContent(new
             {
@@ -14,5 +11,16 @@ public partial class DonorsClient
                 req.Phone,
                 req.IsGodFather
             })
-            .ExecuteAsync<Response>(token);
+            .ExecuteAsync<CreateDonorResponse>(token);
+
+
+    /// <param name="Id">Id of the created donor</param>
+    public sealed record CreateDonorResponse(int Id);
+    
+
+    /// <param name="Name">Name of the Donor</param>
+    /// <param name="Email">Email of the donor. Optional</param>
+    /// <param name="Phone">Phone of the donor. Optional</param>
+    /// <param name="IsGodFather">Whether the sponsor is a godfather or not</param>
+    public sealed record CreateDonorRequest(string Name, string Email, string Phone, bool IsGodFather);
 }

@@ -5,7 +5,7 @@ namespace MamisSolidarias.HttpClient.Donors.Services;
 /// <summary>
 /// Service to obtain headers from the current HTTP Context
 /// </summary>
-internal class HeaderService : IHeaderService
+internal sealed class HeaderService : IHeaderService
 {
     private readonly IHttpContextAccessor? _contextAccessor;
 

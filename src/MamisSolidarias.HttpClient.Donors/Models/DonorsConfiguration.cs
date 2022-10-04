@@ -3,7 +3,7 @@ namespace MamisSolidarias.HttpClient.Donors.Models;
 /// <summary>
 /// Basic configuration to use this HttpClient. It must be stored in the app settings under DonorsHttpClient
 /// </summary>
-internal class DonorsConfiguration
+internal sealed class DonorsConfiguration
 {
     /// <summary>
     /// Base Url of the Donors' service

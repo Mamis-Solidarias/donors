@@ -1,10 +1,8 @@
-using MamisSolidarias.WebAPI.Donors.Endpoints.Donors.Id.PUT;
-
 namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
-public partial class DonorsClient
+partial class DonorsClient
 {
-    public Task<Response?> UpdateDonor(Request req, CancellationToken token = default)
+    public Task<UpdateDonorResponse?> UpdateDonor(UpdateDonorRequest req, CancellationToken token = default)
         => CreateRequest(HttpMethod.Put, "donors", $"{req.Id}")
             .WithContent(new
             {
@@ -13,5 +11,20 @@ public partial class DonorsClient
                 req.IsGodFather,
                 req.Phone
             })
-            .ExecuteAsync<Response>(token);
+            .ExecuteAsync<UpdateDonorResponse>(token);
+    
+    /// <param name="Id">ID of the donor</param>
+    /// <param name="Name">Name of the donor</param>
+    /// <param name="Email">Email of the donor</param>
+    /// <param name="Phone">Phone number of the donor</param>
+    /// <param name="IsGodFather">Is the donor a godfather</param>
+    public sealed record UpdateDonorResponse(int Id, string Name, string? Email, string? Phone, bool IsGodFather);
+    
+
+    /// <param name="Id">Id of the donor</param>
+    /// <param name="Name">Name of the donor</param>
+    /// <param name="Email">Email of the donor</param>
+    /// <param name="Phone">Phone number of the donor</param>
+    /// <param name="IsGodFather">Is the donor a godfather?</param>
+    public sealed record UpdateDonorRequest(int Id, string Name, string? Email, string? Phone, bool IsGodFather);
 }

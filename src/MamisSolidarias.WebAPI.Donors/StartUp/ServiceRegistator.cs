@@ -72,11 +72,11 @@ internal static class ServiceRegistrator
             .AddAuthorization()
             .AddFiltering()
             .AddSorting()
-            .RegisterDbContext<DonorsDbContext>();
+            .RegisterDbContext<DonorsDbContext>()
+            .PublishSchemaDefinition(t => t.SetName($"{Services.Donors}gql"));;
 
         if (!builder.Environment.IsProduction())
             builder.Services.AddSwaggerDoc(t=> t.Title = "Donors");
 
-        builder.Services.AddCors();
     }
 }

@@ -42,17 +42,18 @@ internal static class ServiceRegistrator
         
         
         builder.Services.AddFastEndpoints(t=> t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
-        builder.Services.AddAuthenticationJWTBearer(builder.Configuration["JWT:Key"]);
-        builder.Services.AddAuthorization(t =>
-        {
-            t.ConfigurePolicies(Services.Donors);
-        });
+        builder.Services.AddAuthenticationJWTBearer(
+            builder.Configuration["JWT:Key"],
+            builder.Configuration["JWT:Issuer"]
+        );
+        
+        builder.Services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));
         
         
         builder.Services.AddDbContext<DonorsDbContext>(
             t =>
             {
-                t.UseNpgsql(connectionString, r => { r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"); })
+                t.UseNpgsql(connectionString, r => r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"))
                     .EnableSensitiveDataLogging(!builder.Environment.IsProduction())
                     .EnableDetailedErrors(!builder.Environment.IsProduction());
                 t.UseExceptionProcessor();
@@ -72,11 +73,11 @@ internal static class ServiceRegistrator
             .AddAuthorization()
             .AddFiltering()
             .AddSorting()
-            .RegisterDbContext<DonorsDbContext>();
+            .RegisterDbContext<DonorsDbContext>()
+            .PublishSchemaDefinition(t => t.SetName($"{Services.Donors}gql"));;
 
         if (!builder.Environment.IsProduction())
             builder.Services.AddSwaggerDoc(t=> t.Title = "Donors");
 
-        builder.Services.AddCors();
     }
 }

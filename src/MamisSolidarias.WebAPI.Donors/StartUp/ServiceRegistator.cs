@@ -26,18 +26,27 @@ internal static class ServiceRegistrator
         {
             tracerProviderBuilder
                 .AddConsoleExporter()
-                .AddJaegerExporter()
-                .AddSource(builder.Configuration["Service:Name"])
+                .AddJaegerExporter(t =>
+                {
+                    var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Host"];
+                    if (jaegerHost is not null)
+                        t.Endpoint = new Uri($"{jaegerHost}/api/traces");
+                })
+                .AddSource(builder.Configuration["OpenTelemetry:Service:Name"])
                 .SetResourceBuilder(
                     ResourceBuilder.CreateDefault()
                         .AddService(
-                            serviceName: builder.Configuration["Service:Name"], 
-                            serviceVersion: builder.Configuration["Service:Version"]
+                            serviceName: builder.Configuration["OpenTelemetry:Service:Name"], 
+                            serviceVersion: builder.Configuration["OpenTelemetry:Service:Version"]
                             )
                     )
-                .AddHttpClientInstrumentation()
-                .AddAspNetCoreInstrumentation()
-                .AddEntityFrameworkCoreInstrumentation();
+                .AddHttpClientInstrumentation(t =>
+                {
+                    t.RecordException = true;
+                    t.SetHttpFlavor = true;
+                })
+                .AddAspNetCoreInstrumentation(t=> t.RecordException = true)
+                .AddEntityFrameworkCoreInstrumentation(t=> t.SetDbStatementForText = true);
         });        
         
         

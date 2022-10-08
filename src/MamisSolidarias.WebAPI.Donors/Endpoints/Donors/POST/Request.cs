@@ -21,6 +21,9 @@ public class Request
     /// Whether the sponsor is a godfather or not
     /// </summary>
     public bool IsGodFather { get; set; }
+    
+    [FromClaim("Id")]
+    public int UserId { get; set; }
 }
 
 internal class RequestValidator : Validator<Request>
@@ -46,5 +49,8 @@ internal class RequestValidator : Validator<Request>
                 .When(t=> t.Phone is not null).WithMessage("El teléfono no puede tener más de 15 caracteres")
             .NotEmpty()
                 .When(t=> t.Email is null).WithMessage("Es obligatorio indicar el email o el teléfono del donante");
+        
+        RuleFor(t=> t.UserId)
+            .NotEmpty().WithMessage("Es obligatorio indicar el usuario que realiza la acción");
     }
 }

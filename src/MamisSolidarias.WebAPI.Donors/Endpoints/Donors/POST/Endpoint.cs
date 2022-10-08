@@ -43,7 +43,8 @@ internal sealed class Endpoint : Endpoint<Request, Response>
             Email = req.Email?.PrepareForDb(),
             Name = req.Name.PrepareForDb().Capitalize(),
             Phone = req.Phone?.PrepareForDb(),
-            IsGodFather = req.IsGodFather
+            IsGodFather = req.IsGodFather,
+            CreatedBy = req.UserId
         };
     }
 }

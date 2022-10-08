@@ -41,6 +41,7 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
+            UserId = 123
         };
 
         // Act
@@ -66,6 +67,7 @@ internal sealed class DonorsPostTest
             Email = donor.Email,
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
+            UserId = 123
         };
 
         // Act
@@ -92,6 +94,7 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
+            UserId = 123
         };
 
         // Act
@@ -119,6 +122,7 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
+            UserId = 123
         };
 
         // Act
@@ -146,6 +150,7 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
+            UserId = 123
         };
 
         // Act

@@ -10,6 +10,8 @@ public class Donor
     public string? Email { get; set; }
     public string? Phone { get; set; }
     public bool IsGodFather { get; set; }
+    
+    public int CreatedBy { get; set; }
 }
 
 internal class DonorCondfigurator : IEntityTypeConfiguration<Donor>
@@ -37,6 +39,9 @@ internal class DonorCondfigurator : IEntityTypeConfiguration<Donor>
 
         builder.Property(t => t.IsGodFather)
             .IsRequired();
-        
+
+        builder.Property(t => t.CreatedBy)
+            .IsRequired();
+
     }
 }

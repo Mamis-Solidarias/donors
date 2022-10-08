@@ -30,14 +30,14 @@ internal static class ServiceRegistrator
                 {
                     var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Host"];
                     if (jaegerHost is not null)
-                        t.Endpoint = new Uri($"{jaegerHost}/api/traces");
+                        t.Endpoint = new Uri(jaegerHost);
                 })
-                .AddSource(builder.Configuration["OpenTelemetry:Service:Name"])
+                .AddSource(builder.Configuration["OpenTelemetry:Name"])
                 .SetResourceBuilder(
                     ResourceBuilder.CreateDefault()
                         .AddService(
-                            serviceName: builder.Configuration["OpenTelemetry:Service:Name"], 
-                            serviceVersion: builder.Configuration["OpenTelemetry:Service:Version"]
+                            serviceName: builder.Configuration["OpenTelemetry:Name"], 
+                            serviceVersion: builder.Configuration["OpenTelemetry:Version"]
                             )
                     )
                 .AddHttpClientInstrumentation(t =>

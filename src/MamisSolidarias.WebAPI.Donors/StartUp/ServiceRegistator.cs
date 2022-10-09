@@ -82,6 +82,7 @@ internal static class ServiceRegistrator
             .AddAuthorization()
             .AddFiltering()
             .AddSorting()
+            .AddProjections()
             .RegisterDbContext<DonorsDbContext>()
             .PublishSchemaDefinition(t => t.SetName($"{Services.Donors}gql"));;
 

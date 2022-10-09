@@ -14,4 +14,10 @@ public class Donors
     [UseSorting]
     public IQueryable<Donor> GetDonors([FromServices] DonorsDbContext dbContext) =>
         dbContext.Donors;
+    
+    [Authorize(Policy = "CanRead")]
+    [UseFirstOrDefault]
+    [UseProjection]
+    public IQueryable<Donor> GetDonor([FromServices] DonorsDbContext dbContext, int id) =>
+        dbContext.Donors.Where(d => d.Id == id);
 }

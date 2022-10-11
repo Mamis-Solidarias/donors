@@ -15,13 +15,12 @@ internal static class ServiceRegistrator
 {
     public static void Register(WebApplicationBuilder builder)
     {
-
         var connectionString = builder.Environment.EnvironmentName.ToLower() switch
         {
             "production" => builder.Configuration.GetConnectionString("Production"),
             _ => builder.Configuration.GetConnectionString("Development")
         };
-        
+
         builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
         {
             tracerProviderBuilder
@@ -36,30 +35,30 @@ internal static class ServiceRegistrator
                 .SetResourceBuilder(
                     ResourceBuilder.CreateDefault()
                         .AddService(
-                            serviceName: builder.Configuration["OpenTelemetry:Name"], 
+                            builder.Configuration["OpenTelemetry:Name"],
                             serviceVersion: builder.Configuration["OpenTelemetry:Version"]
-                            )
-                    )
+                        )
+                )
                 .AddHttpClientInstrumentation(t =>
                 {
                     t.RecordException = true;
                     t.SetHttpFlavor = true;
                 })
-                .AddAspNetCoreInstrumentation(t=> t.RecordException = true)
-                .AddEntityFrameworkCoreInstrumentation(t=> t.SetDbStatementForText = true)
+                .AddAspNetCoreInstrumentation(t => t.RecordException = true)
+                .AddEntityFrameworkCoreInstrumentation(t => t.SetDbStatementForText = true)
                 .AddHotChocolateInstrumentation();
-        });        
-        
-        
-        builder.Services.AddFastEndpoints(t=> t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
+        });
+
+
+        builder.Services.AddFastEndpoints(t => t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
         builder.Services.AddAuthenticationJWTBearer(
             builder.Configuration["Jwt:Key"],
             builder.Configuration["Jwt:Issuer"]
         );
-        
+
         builder.Services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));
-        
-        
+
+
         builder.Services.AddDbContext<DonorsDbContext>(
             t =>
             {
@@ -69,15 +68,15 @@ internal static class ServiceRegistrator
                 t.UseExceptionProcessor();
             }
         );
-        
-        
+
+
         builder.Services.AddGraphQLServer()
             .AddQueryType<Queries.Donors>()
             .AddInstrumentation(t =>
             {
                 t.Scopes = ActivityScopes.All;
                 t.IncludeDocument = true;
-                t.RequestDetails = RequestDetails.All; 
+                t.RequestDetails = RequestDetails.All;
                 t.IncludeDataLoaderKeys = true;
             })
             .AddAuthorization()
@@ -85,10 +84,12 @@ internal static class ServiceRegistrator
             .AddSorting()
             .AddProjections()
             .RegisterDbContext<DonorsDbContext>()
-            .PublishSchemaDefinition(t => t.SetName($"{Services.Donors}gql"));;
+            .PublishSchemaDefinition(t =>
+                t.SetName($"{Services.Donors}gql")
+                    .AddTypeExtensionsFromFile("./Stitching.graphql")
+            );
 
         if (!builder.Environment.IsProduction())
-            builder.Services.AddSwaggerDoc(t=> t.Title = "Donors");
-
+            builder.Services.AddSwaggerDoc(t => t.Title = "Donors");
     }
 }

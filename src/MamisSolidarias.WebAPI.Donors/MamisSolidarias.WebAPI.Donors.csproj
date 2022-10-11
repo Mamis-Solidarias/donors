@@ -40,4 +40,10 @@
       <ProjectReference Include="..\MamisSolidarias.Infrastructure.Donors\MamisSolidarias.Infrastructure.Donors.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Stitching.graphql">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

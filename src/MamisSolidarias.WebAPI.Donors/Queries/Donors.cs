@@ -18,6 +18,6 @@ public class Donors
     [Authorize(Policy = "CanRead")]
     [UseFirstOrDefault]
     [UseProjection]
-    public IQueryable<Donor> GetDonor([FromServices] DonorsDbContext dbContext, int id) =>
+    public IQueryable<Donor> GetDonor([FromServices] DonorsDbContext dbContext, int? id) =>
         dbContext.Donors.Where(d => d.Id == id);
 }

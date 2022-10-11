@@ -28,8 +28,8 @@ internal static class ServiceRegistrator
                 .AddConsoleExporter()
                 .AddJaegerExporter(t =>
                 {
-                    var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Host"];
-                    if (jaegerHost is not null)
+                    var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Endpoint"];
+                    if (!string.IsNullOrEmpty(jaegerHost))
                         t.Endpoint = new Uri(jaegerHost);
                 })
                 .AddSource(builder.Configuration["OpenTelemetry:Name"])
@@ -46,14 +46,15 @@ internal static class ServiceRegistrator
                     t.SetHttpFlavor = true;
                 })
                 .AddAspNetCoreInstrumentation(t=> t.RecordException = true)
-                .AddEntityFrameworkCoreInstrumentation(t=> t.SetDbStatementForText = true);
+                .AddEntityFrameworkCoreInstrumentation(t=> t.SetDbStatementForText = true)
+                .AddHotChocolateInstrumentation();
         });        
         
         
         builder.Services.AddFastEndpoints(t=> t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
         builder.Services.AddAuthenticationJWTBearer(
-            builder.Configuration["JWT:Key"],
-            builder.Configuration["JWT:Issuer"]
+            builder.Configuration["Jwt:Key"],
+            builder.Configuration["Jwt:Issuer"]
         );
         
         builder.Services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));

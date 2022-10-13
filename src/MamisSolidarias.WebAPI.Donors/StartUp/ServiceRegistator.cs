@@ -27,9 +27,9 @@ internal static class ServiceRegistrator
                 .AddConsoleExporter()
                 .AddJaegerExporter(t =>
                 {
-                    var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Endpoint"];
+                    var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Host"];
                     if (!string.IsNullOrEmpty(jaegerHost))
-                        t.Endpoint = new Uri(jaegerHost);
+                        t.AgentHost = jaegerHost;
                 })
                 .AddSource(builder.Configuration["OpenTelemetry:Name"])
                 .SetResourceBuilder(

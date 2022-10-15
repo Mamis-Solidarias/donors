@@ -23,7 +23,7 @@ internal static class MiddlewareRegistrator
         
         
 
-        if (app.Environment.IsDevelopment())
+        if (!app.Environment.IsProduction())
         {
             app.UseOpenApi();
             app.UseSwaggerUi3(t => t.ConfigureDefaults());

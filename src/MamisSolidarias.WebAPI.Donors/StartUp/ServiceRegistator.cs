@@ -6,6 +6,7 @@ using HotChocolate.Diagnostics;
 using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Utils.Security;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -39,14 +40,11 @@ internal static class ServiceRegistrator
                             serviceVersion: builder.Configuration["OpenTelemetry:Version"]
                         )
                 )
-                .AddHttpClientInstrumentation(t =>
-                {
-                    t.RecordException = true;
-                    t.SetHttpFlavor = true;
-                })
+                .AddHttpClientInstrumentation(t => t.RecordException = true)
                 .AddAspNetCoreInstrumentation(t => t.RecordException = true)
                 .AddEntityFrameworkCoreInstrumentation(t => t.SetDbStatementForText = true)
-                .AddHotChocolateInstrumentation();
+                .AddHotChocolateInstrumentation()
+                .AddNpgsql();
         });
 
 

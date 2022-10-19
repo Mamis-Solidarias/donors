@@ -40,9 +40,9 @@ internal sealed class Endpoint : Endpoint<Request, Response>
     {
         return new Donor
         {
-            Email = req.Email?.PrepareForDb(),
-            Name = req.Name.PrepareForDb().Capitalize(),
-            Phone = req.Phone?.PrepareForDb(),
+            Email = req.Email.PrepareForDb(),
+            Name = req.Name.PrepareForDb()!.Capitalize(),
+            Phone = req.Phone.PrepareForDb(),
             IsGodFather = req.IsGodFather,
             CreatedBy = req.UserId
         };

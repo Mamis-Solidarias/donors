@@ -1,7 +1,7 @@
 using EntityFramework.Exceptions.Common;
 using FastEndpoints;
 using MamisSolidarias.Infrastructure.Donors;
-using MamisSolidarias.Infrastructure.Donors.Models;
+using MamisSolidarias.WebAPI.Donors.Extensions;
 
 namespace MamisSolidarias.WebAPI.Donors.Endpoints.Donors.Id.PUT;
 
@@ -17,7 +17,7 @@ internal sealed class Endpoint : Endpoint<Request, Response>
     public override void Configure()
     {
         Put("donors/{id}");
-        Policies(MamisSolidarias.Utils.Security.Policies.CanWrite);
+        Policies(Utils.Security.Policies.CanWrite);
     }
 
     public override async Task HandleAsync(Request req, CancellationToken ct)
@@ -31,20 +31,18 @@ internal sealed class Endpoint : Endpoint<Request, Response>
 
         try
         {
-            donor.Name = req.Name;
-            donor.Email = req.Email;
-            donor.Phone = req.Phone;
+            donor.Name = req.Name.PrepareForDb()!.Capitalize();
+            donor.Email = req.Email.PrepareForDb();
+            donor.Phone = req.Phone.PrepareForDb();
             donor.IsGodFather = req.IsGodFather;
 
             await _db.SaveChangesAsync(ct);
-            await SendOkAsync(new Response(donor.Id,donor.Name,donor.Email,donor.Phone,donor.IsGodFather), ct);
+            await SendOkAsync(new Response(donor.Id, donor.Name, donor.Email, donor.Phone, donor.IsGodFather), ct);
         }
-        catch (UniqueConstraintException )
+        catch (UniqueConstraintException)
         {
             AddError("Algunos de los datos ingresados ya existen en la base de datos");
-            await SendErrorsAsync(cancellation:ct);
+            await SendErrorsAsync(cancellation: ct);
         }
     }
-
-
 }

@@ -14,7 +14,7 @@ public class DonorsDbContext: DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        new DonorCondfigurator().Configure(modelBuilder.Entity<Donor>());
+        new DonorConfigurator().Configure(modelBuilder.Entity<Donor>());
     }
     
 }

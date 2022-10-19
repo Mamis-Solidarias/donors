@@ -14,7 +14,7 @@ public class Donor
     public int CreatedBy { get; set; }
 }
 
-internal class DonorCondfigurator : IEntityTypeConfiguration<Donor>
+internal class DonorConfigurator : IEntityTypeConfiguration<Donor>
 {
     public void Configure(EntityTypeBuilder<Donor> builder)
     {

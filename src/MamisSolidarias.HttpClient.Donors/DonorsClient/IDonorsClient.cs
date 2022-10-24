@@ -1,5 +1,8 @@
 namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
+/// <summary>
+/// 
+/// </summary>
 public interface IDonorsClient
 {
     /// <summary>

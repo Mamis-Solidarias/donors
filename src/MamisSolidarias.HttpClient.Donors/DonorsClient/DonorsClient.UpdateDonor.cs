@@ -2,6 +2,12 @@ namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
 partial class DonorsClient
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="req"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
     public Task<UpdateDonorResponse?> UpdateDonor(UpdateDonorRequest req, CancellationToken token = default)
         => CreateRequest(HttpMethod.Put, "donors", $"{req.Id}")
             .WithContent(new

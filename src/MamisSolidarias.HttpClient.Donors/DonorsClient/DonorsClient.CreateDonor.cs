@@ -1,7 +1,11 @@
 namespace MamisSolidarias.HttpClient.Donors.DonorsClient;
 
+/// <summary>
+/// 
+/// </summary>
 partial class DonorsClient
 {
+    /// <inheritdoc />
     public Task<CreateDonorResponse?> CreateDonor(CreateDonorRequest req, CancellationToken token = default)
         => CreateRequest(HttpMethod.Post, "donors")
             .WithContent(new

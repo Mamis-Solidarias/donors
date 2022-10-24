@@ -6,6 +6,10 @@ public sealed partial class DonorsClient : IDonorsClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="httpClientFactory"></param>
     public DonorsClient(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;

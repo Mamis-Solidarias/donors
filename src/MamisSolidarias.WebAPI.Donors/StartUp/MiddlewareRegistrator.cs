@@ -20,8 +20,6 @@ internal static class MiddlewareRegistrator
             var db = scope.ServiceProvider.GetRequiredService<DonorsDbContext>();
             db.Database.Migrate();
         }
-        
-        
 
         if (!app.Environment.IsProduction())
         {

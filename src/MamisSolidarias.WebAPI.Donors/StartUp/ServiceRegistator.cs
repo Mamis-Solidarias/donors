@@ -5,8 +5,13 @@ using FastEndpoints.Swagger;
 using HotChocolate.Diagnostics;
 using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Utils.Security;
+using MamisSolidarias.WebAPI.Donors.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using OpenTelemetry;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -22,32 +27,8 @@ internal static class ServiceRegistrator
             _ => builder.Configuration.GetConnectionString("Development")
         };
 
-        builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
-        {
-            tracerProviderBuilder
-                .AddConsoleExporter()
-                .AddJaegerExporter(t =>
-                {
-                    var jaegerHost = builder.Configuration["OpenTelemetry:Jaeger:Host"];
-                    if (!string.IsNullOrEmpty(jaegerHost))
-                        t.AgentHost = jaegerHost;
-                })
-                .AddSource(builder.Configuration["OpenTelemetry:Name"])
-                .SetResourceBuilder(
-                    ResourceBuilder.CreateDefault()
-                        .AddService(
-                            builder.Configuration["OpenTelemetry:Name"],
-                            serviceVersion: builder.Configuration["OpenTelemetry:Version"]
-                        )
-                )
-                .AddHttpClientInstrumentation(t => t.RecordException = true)
-                .AddAspNetCoreInstrumentation(t => t.RecordException = true)
-                .AddEntityFrameworkCoreInstrumentation(t => t.SetDbStatementForText = true)
-                .AddHotChocolateInstrumentation()
-                .AddNpgsql();
-        });
-
-
+        builder.Services.AddOpenTelemetry(builder.Configuration, builder.Logging);
+        
         builder.Services.AddFastEndpoints(t => t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
         builder.Services.AddAuthenticationJWTBearer(
             builder.Configuration["Jwt:Key"],
@@ -55,8 +36,7 @@ internal static class ServiceRegistrator
         );
 
         builder.Services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));
-
-
+        
         builder.Services.AddDbContext<DonorsDbContext>(
             t =>
             {
@@ -66,7 +46,6 @@ internal static class ServiceRegistrator
                 t.UseExceptionProcessor();
             }
         );
-
 
         builder.Services.AddGraphQLServer()
             .AddQueryType<Queries.Donors>()

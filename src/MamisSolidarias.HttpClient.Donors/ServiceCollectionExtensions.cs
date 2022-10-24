@@ -9,6 +9,9 @@ using Polly;
 
 namespace MamisSolidarias.HttpClient.Donors;
 
+/// <summary>
+/// 
+/// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>

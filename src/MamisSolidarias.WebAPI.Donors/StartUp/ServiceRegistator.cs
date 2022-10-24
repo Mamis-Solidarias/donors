@@ -6,14 +6,10 @@ using HotChocolate.Diagnostics;
 using MamisSolidarias.Infrastructure.Donors;
 using MamisSolidarias.Utils.Security;
 using MamisSolidarias.WebAPI.Donors.Extensions;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using OpenTelemetry;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 
 namespace MamisSolidarias.WebAPI.Donors.StartUp;
 
@@ -26,6 +22,17 @@ internal static class ServiceRegistrator
             "production" => builder.Configuration.GetConnectionString("Production"),
             _ => builder.Configuration.GetConnectionString("Development")
         };
+        
+        var dataProtectionKeysPath = builder.Configuration.GetValue<string>("DataProtectionKeysPath");
+        if (!string.IsNullOrWhiteSpace(dataProtectionKeysPath))
+        {
+            builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath))
+                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+                {
+                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+                });
+        }
 
         builder.Services.AddOpenTelemetry(builder.Configuration, builder.Logging);
         

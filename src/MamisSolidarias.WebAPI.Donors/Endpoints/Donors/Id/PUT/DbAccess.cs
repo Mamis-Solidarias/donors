@@ -20,7 +20,7 @@ internal class DbAccess
     public virtual Task<Donor?> GetDonorAsync(int id, CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(_dbContext);
-        return _dbContext.Donors.FirstOrDefaultAsync(t=> t.Id == id, ct);
+        return _dbContext.Donors.AsTracking().FirstOrDefaultAsync(t=> t.Id == id, ct);
     }
 
     public virtual async Task SaveChangesAsync(CancellationToken ct)

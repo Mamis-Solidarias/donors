@@ -124,7 +124,7 @@ internal static class OpenTelemetryExtensions
     // ReSharper disable once ClassNeverInstantiated.Local
     private sealed class JaegerOptions
     {
-        public string? Url { get; init; } = string.Empty;
+        public string? Url { get; init; }
     }
 
     private sealed class OpenTelemetryOptions

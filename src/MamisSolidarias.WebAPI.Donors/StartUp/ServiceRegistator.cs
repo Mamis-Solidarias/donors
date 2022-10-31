@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace MamisSolidarias.WebAPI.Donors.StartUp;
 
@@ -54,6 +55,8 @@ internal static class ServiceRegistrator
             }
         );
 
+        builder.Services.AddSingleton(ConnectionMultiplexer.Connect($"{builder.Configuration["Redis:Host"]}:{builder.Configuration["Redis:Port"]}"));
+
         builder.Services.AddGraphQLServer()
             .AddQueryType<Queries.Donors>()
             .AddInstrumentation(t =>
@@ -68,9 +71,13 @@ internal static class ServiceRegistrator
             .AddSorting()
             .AddProjections()
             .RegisterDbContext<DonorsDbContext>()
+            .InitializeOnStartup()
             .PublishSchemaDefinition(t =>
                 t.SetName($"{Services.Donors}gql")
                     .AddTypeExtensionsFromFile("./Stitching.graphql")
+                    .PublishToRedis(builder.Configuration["GraphQl:GlobalSchemaName"],
+                        sp => sp.GetRequiredService<ConnectionMultiplexer>()
+                    )
             );
 
         if (!builder.Environment.IsProduction())

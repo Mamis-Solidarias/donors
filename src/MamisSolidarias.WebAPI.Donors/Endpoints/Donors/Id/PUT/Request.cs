@@ -50,7 +50,12 @@ internal class RequestValidator : Validator<Request>
             .When(t=> t.Phone is null).WithMessage("Es obligatorio indicar el email o el teléfono del donante");
         
         RuleFor(t=> t.Phone)
-            .Matches(@"^\+54\d{8,12}$")
+            .Must(t =>
+            {
+                var util = PhoneNumbers.PhoneNumberUtil.GetInstance();
+                var phone = util.Parse(t, "AR");
+                return util.IsValidNumber(phone) && util.GetNumberType(phone) is PhoneNumbers.PhoneNumberType.MOBILE;
+            })
             .When(t=> t.Phone is not null).WithMessage("El teléfono no tiene un formato válido")
             .MaximumLength(15)
             .When(t=> t.Phone is not null).WithMessage("El teléfono no puede tener más de 15 caracteres")

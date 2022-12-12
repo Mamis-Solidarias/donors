@@ -31,9 +31,9 @@ internal sealed class Endpoint : Endpoint<Request, Response>
 
         try
         {
-            donor.Name = req.Name.PrepareForDb()!.Capitalize();
+            donor.Name = req.Name.PrepareForDb().Capitalize();
             donor.Email = req.Email.PrepareForDb();
-            donor.Phone = req.Phone.PrepareForDb();
+            donor.Phone = req.Phone.ParsePhoneNumber();
             donor.IsGodFather = req.IsGodFather;
 
             await _db.SaveChangesAsync(ct);

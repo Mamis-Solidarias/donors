@@ -24,14 +24,11 @@ internal static class ServiceRegistrar
     
     public static void Register(WebApplicationBuilder builder)
     {
-        var loggerFactory = CreateLoggerFactory(builder.Configuration);
+        using var loggerFactory = CreateLoggerFactory(builder.Configuration);
 
         builder.Services.AddEntityFramework(builder.Configuration,builder.Environment);
-        
-        
-        
-
-        builder.Services.AddOpenTelemetry(builder.Configuration, builder.Logging);
+        builder.Services.AddDataProtection(builder.Configuration, loggerFactory);
+        builder.Services.AddOpenTelemetry(builder.Configuration, builder.Logging,loggerFactory);
         
         builder.Services.AddFastEndpoints(t => t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
         builder.Services.AddAuthenticationJWTBearer(

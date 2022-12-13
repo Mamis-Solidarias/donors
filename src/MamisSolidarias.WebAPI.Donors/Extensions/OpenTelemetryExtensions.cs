@@ -97,7 +97,6 @@ internal static class OpenTelemetryExtensions
             t.Endpoint = new Uri(newRelicOptions.Url);
             t.Headers = $"api-key={newRelicOptions.ApiKey}";
         });
-        ;
     }
 
     private static MeterProviderBuilder AddNewRelicExporter(this MeterProviderBuilder builder,

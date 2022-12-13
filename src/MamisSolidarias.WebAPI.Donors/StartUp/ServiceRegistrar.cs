@@ -14,26 +14,22 @@ using StackExchange.Redis;
 
 namespace MamisSolidarias.WebAPI.Donors.StartUp;
 
-internal static class ServiceRegistrator
+internal static class ServiceRegistrar
 {
+    private static ILoggerFactory CreateLoggerFactory(IConfiguration configuration) =>
+        LoggerFactory.Create(loggingBuilder => loggingBuilder
+            .AddConfiguration(configuration)
+            .AddConsole()
+        );
+    
     public static void Register(WebApplicationBuilder builder)
     {
-        var connectionString = builder.Environment.EnvironmentName.ToLower() switch
-        {
-            "production" => builder.Configuration.GetConnectionString("Production"),
-            _ => builder.Configuration.GetConnectionString("Development")
-        };
+        var loggerFactory = CreateLoggerFactory(builder.Configuration);
+
+        builder.Services.AddEntityFramework(builder.Configuration,builder.Environment);
         
-        var dataProtectionKeysPath = builder.Configuration.GetValue<string>("DataProtectionKeysPath");
-        if (!string.IsNullOrWhiteSpace(dataProtectionKeysPath))
-        {
-            builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath))
-                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
-                {
-                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
-                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
-                });
-        }
+        
+        
 
         builder.Services.AddOpenTelemetry(builder.Configuration, builder.Logging);
         
@@ -45,15 +41,7 @@ internal static class ServiceRegistrator
 
         builder.Services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));
         
-        builder.Services.AddDbContext<DonorsDbContext>(
-            t =>
-            {
-                t.UseNpgsql(connectionString, r => r.MigrationsAssembly("MamisSolidarias.WebAPI.Donors"))
-                    .EnableSensitiveDataLogging(!builder.Environment.IsProduction())
-                    .EnableDetailedErrors(!builder.Environment.IsProduction());
-                t.UseExceptionProcessor();
-            }
-        );
+        
 
         builder.Services.AddSingleton(ConnectionMultiplexer.Connect($"{builder.Configuration["Redis:Host"]}:{builder.Configuration["Redis:Port"]}"));
 

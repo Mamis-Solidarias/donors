@@ -33,9 +33,7 @@ internal static class ServiceRegistrar
         builder.Services.AddAuth(builder.Configuration,loggerFactory);
         
         
-
-        builder.Services.AddSingleton(ConnectionMultiplexer.Connect($"{builder.Configuration["Redis:Host"]}:{builder.Configuration["Redis:Port"]}"));
-
+        
         builder.Services.AddGraphQLServer()
             .AddQueryType<Queries.Donors>()
             .AddInstrumentation(t =>

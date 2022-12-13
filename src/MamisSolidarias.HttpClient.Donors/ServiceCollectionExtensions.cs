@@ -1,7 +1,6 @@
-using MamisSolidarias.HttpClient.Donors.Models;
 using MamisSolidarias.HttpClient.Donors.DonorsClient;
+using MamisSolidarias.HttpClient.Donors.Models;
 using MamisSolidarias.HttpClient.Donors.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,12 +9,11 @@ using Polly;
 namespace MamisSolidarias.HttpClient.Donors;
 
 /// <summary>
-/// 
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// It registers the DonorsHttpClient using dependency injection
+    ///     It registers the DonorsHttpClient using dependency injection
     /// </summary>
     /// <param name="services"></param>
     /// <param name="configuration"></param>
@@ -28,24 +26,24 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(config.Retries);
 
         services.AddHttpContextAccessor();
-        
+
         services.AddSingleton<IDonorsClient, DonorsClient.DonorsClient>();
-        services.AddHttpClient("Donors", (services,client) =>
-        {
-            client.BaseAddress = new Uri(config.BaseUrl);
-            client.Timeout = TimeSpan.FromMilliseconds(config.Timeout);
-            
-            var contextAccessor = services.GetService<IHttpContextAccessor>();
-            if (contextAccessor is not null)
+        services.AddHttpClient("Donors", (s, client) =>
             {
+                client.BaseAddress = new Uri(config.BaseUrl);
+                client.Timeout = TimeSpan.FromMilliseconds(config.Timeout);
+
+                var contextAccessor = s.GetService<IHttpContextAccessor>();
+                if (contextAccessor is null) 
+                    return;
+                
                 var authHeader = new HeaderService(contextAccessor).GetAuthorization();
                 if (authHeader is not null)
                     client.DefaultRequestHeaders.Add("Authorization", authHeader);
-            }
-        })
+            })
             .AddTransientHttpErrorPolicy(t =>
-            t.WaitAndRetryAsync(config.Retries,
-                retryAttempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, retryAttempt)))
-        );
+                t.WaitAndRetryAsync(config.Retries,
+                    retryAttempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, retryAttempt)))
+            );
     }
 }

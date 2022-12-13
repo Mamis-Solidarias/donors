@@ -72,7 +72,7 @@ internal sealed class DonorsPost
     {
         // Arrange
         const string email = "test@mail.com";
-        Donor ogDonor = _dataFactory.GenerateDonor().WithEmail(email);
+        Donor _ = _dataFactory.GenerateDonor().WithEmail(email);
         Donor newDonor = DataFactory.GetDonor().WithEmail(email);
         
         // Act
@@ -87,7 +87,7 @@ internal sealed class DonorsPost
     {
         // Arrange
         const string phone = "+5491132112333";
-        Donor ogDonor = _dataFactory.GenerateDonor().WithPhone(phone);
+        Donor _ = _dataFactory.GenerateDonor().WithPhone(phone);
         Donor newDonor = DataFactory.GetDonor().WithPhone(phone);
         
         // Act

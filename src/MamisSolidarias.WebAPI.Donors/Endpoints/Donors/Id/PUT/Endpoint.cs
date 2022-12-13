@@ -22,16 +22,16 @@ internal sealed class Endpoint : Endpoint<Request, Response>
 
     public override async Task HandleAsync(Request req, CancellationToken ct)
     {
-        var donor = await _db.GetDonorAsync(req.Id, ct);
-        if (donor is null)
-        {
-            await SendNotFoundAsync(ct);
-            return;
-        }
-
         try
         {
-            donor.Name = req.Name.PrepareForDb().Capitalize();
+            var donor = await _db.GetDonorAsync(req.Id, ct);
+            if (donor is null)
+            {
+                await SendNotFoundAsync(ct);
+                return;
+            }
+
+            donor.Name = req.Name.PrepareForDb().Capitalize()!;
             donor.Email = req.Email.PrepareForDb();
             donor.Phone = req.Phone.ParsePhoneNumber();
             donor.IsGodFather = req.IsGodFather;

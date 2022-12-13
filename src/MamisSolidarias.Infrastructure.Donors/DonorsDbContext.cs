@@ -1,5 +1,6 @@
 using MamisSolidarias.Infrastructure.Donors.Models;
 using Microsoft.EntityFrameworkCore;
+#pragma warning disable CS8618
 
 namespace MamisSolidarias.Infrastructure.Donors;
 

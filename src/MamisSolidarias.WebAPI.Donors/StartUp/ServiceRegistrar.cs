@@ -29,14 +29,8 @@ internal static class ServiceRegistrar
         builder.Services.AddEntityFramework(builder.Configuration,builder.Environment);
         builder.Services.AddDataProtection(builder.Configuration, loggerFactory);
         builder.Services.AddOpenTelemetry(builder.Configuration, builder.Logging,loggerFactory);
-        
         builder.Services.AddFastEndpoints(t => t.SourceGeneratorDiscoveredTypes = DiscoveredTypes.All);
-        builder.Services.AddAuthenticationJWTBearer(
-            builder.Configuration["Jwt:Key"],
-            builder.Configuration["Jwt:Issuer"]
-        );
-
-        builder.Services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));
+        builder.Services.AddAuth(builder.Configuration,loggerFactory);
         
         
 

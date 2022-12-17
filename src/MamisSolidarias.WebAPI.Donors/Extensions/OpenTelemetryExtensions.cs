@@ -1,4 +1,5 @@
 using Npgsql;
+using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -27,7 +28,7 @@ internal static class OpenTelemetryExtensions
             .AddService(options.Name, "MamisSolidarias", options.Version)
             .AddTelemetrySdk();
 
-        services.AddOpenTelemetryTracing(tracerProviderBuilder =>
+        services.AddOpenTelemetry().WithTracing(tracerProviderBuilder =>
         {
             tracerProviderBuilder
                 .SetResourceBuilder(resourceBuilder)
@@ -39,9 +40,8 @@ internal static class OpenTelemetryExtensions
                 .AddEntityFrameworkCoreInstrumentation(t => t.SetDbStatementForText = true)
                 .AddHotChocolateInstrumentation()
                 .AddNpgsql();
-        });
-
-        services.AddOpenTelemetryMetrics(meterProviderBuilder =>
+        })
+            .WithMetrics(meterProviderBuilder =>
         {
             meterProviderBuilder
                 .SetResourceBuilder(resourceBuilder)

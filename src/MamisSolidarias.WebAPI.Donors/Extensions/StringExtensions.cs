@@ -24,6 +24,8 @@ internal static class StringExtensions
         
         var util = PhoneNumberUtil.GetInstance();
         var phoneNumber = util.Parse(value, "AR");
-        return $"+{phoneNumber.CountryCode}{phoneNumber.NationalNumber}";
+        return util.GetNumberType(phoneNumber) is PhoneNumberType.MOBILE 
+            ? $"+{phoneNumber.CountryCode}{phoneNumber.NationalNumber}" 
+            : $"+{phoneNumber.CountryCode}9{phoneNumber.NationalNumber}";
     }
 }

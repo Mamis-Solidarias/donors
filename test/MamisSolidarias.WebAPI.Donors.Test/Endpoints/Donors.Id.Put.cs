@@ -43,7 +43,9 @@ internal sealed class DonorsIdPut
             Name = "New Name",
             Email = "new@mail.com",
             Phone = "+5412456789",
-            IsGodFather = false
+            IsGodFather = false,
+            Dni = "50123321",
+            MercadoPagoEmail = "mp@gmail.com"
         };
 
         // Act
@@ -56,6 +58,8 @@ internal sealed class DonorsIdPut
         _endpoint.Response.Phone.Should().Be(request.Phone);
         _endpoint.Response.Name.Should().Be(request.Name);
         _endpoint.Response.IsGodFather.Should().Be(request.IsGodFather);
+        _endpoint.Response.Dni.Should().Be(request.Dni);
+        _endpoint.Response.MercadoPagoEmail.Should().Be(request.MercadoPagoEmail);
     }
 
     [Test]

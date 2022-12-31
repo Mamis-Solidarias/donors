@@ -12,7 +12,10 @@ internal sealed class DonorBuilder
         .RuleFor(t => t.Name, f => f.Name.FindName())
         .RuleFor(t => t.Email, f => f.Internet.Email())
         .RuleFor(t => t.Phone, f => f.Phone.PhoneNumber("+549##########"))
-        .RuleFor(t => t.IsGodFather, f => f.Random.Bool());    
+        .RuleFor(t => t.IsGodFather, f => f.Random.Bool())
+        .RuleFor(t=> t.MercadoPagoEmail, f => f.Internet.Email())
+        .RuleFor(t=> t.Dni, f => f.Random.Int(1000000, 99999999).ToString())
+        ;    
     private readonly Donor _donor = Generator.Generate();
 
     private readonly DonorsDbContext? _dbContext;
@@ -56,6 +59,18 @@ internal sealed class DonorBuilder
     public DonorBuilder WithIsGodFather(bool isGodFather)
     {
         _donor.IsGodFather = isGodFather;
+        return this;
+    }
+    
+    public DonorBuilder WithMercadoPagoEmail(string? mercadoPagoEmail)
+    {
+        _donor.MercadoPagoEmail = mercadoPagoEmail;
+        return this;
+    }
+    
+    public DonorBuilder WithDni(string? dni)
+    {
+        _donor.Dni = dni;
         return this;
     }
 

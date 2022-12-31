@@ -64,7 +64,7 @@ internal class RequestValidator : Validator<Request>
             {
                 var util = PhoneNumbers.PhoneNumberUtil.GetInstance();
                 var phone = util.Parse(t, "AR");
-                return util.IsValidNumber(phone) && util.GetNumberType(phone) is PhoneNumbers.PhoneNumberType.MOBILE;
+                return util.IsValidNumber(phone);
             })
             .When(t=> t.Phone is not null).WithMessage("El teléfono no tiene un formato válido")
             .MaximumLength(15)

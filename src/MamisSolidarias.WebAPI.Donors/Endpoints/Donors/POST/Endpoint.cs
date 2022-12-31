@@ -42,7 +42,7 @@ internal sealed class Endpoint : Endpoint<Request, Response>
         {
             Email = req.Email.PrepareForDb(),
             Name = req.Name.PrepareForDb().Capitalize()!,
-            Phone = req.Phone.PrepareForDb(),
+            Phone = req.Phone.ParsePhoneNumber(),
             IsGodFather = req.IsGodFather,
             CreatedBy = req.UserId,
             Dni = req.Dni.PrepareForDb(),

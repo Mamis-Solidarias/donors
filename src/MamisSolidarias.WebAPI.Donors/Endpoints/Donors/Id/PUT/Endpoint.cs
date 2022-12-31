@@ -35,9 +35,11 @@ internal sealed class Endpoint : Endpoint<Request, Response>
             donor.Email = req.Email.PrepareForDb();
             donor.Phone = req.Phone.ParsePhoneNumber();
             donor.IsGodFather = req.IsGodFather;
+            donor.MercadoPagoEmail = req.MercadoPagoEmail.PrepareForDb();
+            donor.Dni = req.Dni.PrepareForDb();
 
             await _db.SaveChangesAsync(ct);
-            await SendOkAsync(new Response(donor.Id, donor.Name, donor.Email, donor.Phone, donor.IsGodFather), ct);
+            await SendOkAsync(new Response(donor.Id, donor.Dni,donor.Name, donor.Email,donor.MercadoPagoEmail, donor.Phone, donor.IsGodFather), ct);
         }
         catch (UniqueConstraintException)
         {

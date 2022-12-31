@@ -12,7 +12,9 @@ internal sealed class Description : Summary<Endpoint>
             Email = "test@mail.com",
             IsGodFather = true,
             Name = "Carlos",
-            Phone = "+5491234567890"
+            Phone = "+5491234567890",
+            Dni = "50123321",
+            MercadoPagoEmail = "mp@gmail.com"
         };
         
         Response<Response>(201,"The donor was created successfully");

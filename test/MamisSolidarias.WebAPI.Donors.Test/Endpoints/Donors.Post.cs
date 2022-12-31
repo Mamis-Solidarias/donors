@@ -24,6 +24,12 @@ internal sealed class DonorsPostTest
             .CreateEndpoint<Endpoint>(null, _mockDbService.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _mockDbService.Reset();
+    }
+
     [Test]
     public async Task ValidDonor_ShouldReturnCreated()
     {
@@ -57,7 +63,7 @@ internal sealed class DonorsPostTest
     public async Task ValidDonor_WithOnlyEmail_ShouldReturnCreated()
     {
         // Arrange
-        Donor donor = DataFactory.GetDonor().WithId(0);
+        Donor donor = DataFactory.GetDonor();
         _mockDbService.Setup(t => t.CreateDonor(
                 It.Is<Donor>(r => r.Name == donor.Name),
                 It.IsAny<CancellationToken>()
@@ -69,7 +75,9 @@ internal sealed class DonorsPostTest
             Email = donor.Email,
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
-            UserId = 123
+            UserId = 123,
+            Dni = "50123321",
+            MercadoPagoEmail = "mp@gmail.com"
         };
 
         // Act
@@ -77,7 +85,7 @@ internal sealed class DonorsPostTest
 
         // Assert
         _endpoint.HttpContext.Response.StatusCode.Should().Be(201);
-        _endpoint.Response.Id.Should().Be(donor.Id);
+        _endpoint.Response.Id.Should().Be(0);
     }
     
     [Test]

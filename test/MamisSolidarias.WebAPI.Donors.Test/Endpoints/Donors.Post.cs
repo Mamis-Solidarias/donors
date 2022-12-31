@@ -41,7 +41,9 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
-            UserId = 123
+            UserId = 123,
+            Dni = "50123321",
+            MercadoPagoEmail = "mp@gmail.com"
         };
 
         // Act
@@ -94,7 +96,9 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
-            UserId = 123
+            UserId = 123,
+            Dni = "50123321",
+            MercadoPagoEmail = "mp@gmail.com"
         };
 
         // Act
@@ -150,7 +154,9 @@ internal sealed class DonorsPostTest
             Name = donor.Name,
             IsGodFather = donor.IsGodFather,
             Phone = donor.Phone,
-            UserId = 123
+            UserId = 123,
+            Dni = "50123321",
+            MercadoPagoEmail = "mp@gmail.com"
         };
 
         // Act

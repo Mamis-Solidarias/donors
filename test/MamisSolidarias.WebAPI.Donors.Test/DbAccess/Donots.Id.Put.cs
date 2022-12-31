@@ -55,6 +55,8 @@ internal sealed class DonotsIdPut
         result.Phone.Should().Be(donor.Phone);
         result.IsGodFather.Should().Be(donor.IsGodFather);
         result.Id.Should().Be(donor.Id);
+        result.Dni.Should().Be(donor.Dni);
+        result.MercadoPagoEmail.Should().Be(donor.MercadoPagoEmail);
     }
 
     [Test]

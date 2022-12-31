@@ -83,6 +83,36 @@ internal sealed class DonorsPost
     }
 
     [Test]
+    public async Task InvalidDonor_RepeatedMercadoPagoEmail_ShouldThrowUniqueConstraint()
+    {
+        // Arrange
+        const string email = "mp@mail.com";
+        Donor _ = _dataFactory.GenerateDonor().WithMercadoPagoEmail(email);
+        Donor newDonor = DataFactory.GetDonor().WithMercadoPagoEmail(email);
+        
+        // Act
+        var action = async () => await _dbAccess.CreateDonor(newDonor, default);
+        
+        // Assert
+        await action.Should().ThrowAsync<UniqueConstraintException>();
+    }
+
+    [Test]
+    public async Task InvalidDonor_RepeatedDni_ShouldThrowUniqueConstraint()
+    {
+        // Arrange
+        const string dni = "40345098";
+        Donor _ = _dataFactory.GenerateDonor().WithDni(dni);
+        Donor newDonor = DataFactory.GetDonor().WithDni(dni);
+        
+        // Act
+        var action = async () => await _dbAccess.CreateDonor(newDonor, default);
+        
+        // Assert
+        await action.Should().ThrowAsync<UniqueConstraintException>();
+    }
+
+    [Test]
     public async Task InvalidDonor_RepeatedPhone_ShouldThrowUniqueConstraint()
     {
         // Arrange

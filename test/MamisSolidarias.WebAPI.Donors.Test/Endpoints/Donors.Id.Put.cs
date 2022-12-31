@@ -42,7 +42,7 @@ internal sealed class DonorsIdPut
             Id = donor.Id,
             Name = "New Name",
             Email = "new@mail.com",
-            Phone = "+5412456789",
+            Phone = "12456789",
             IsGodFather = false,
             Dni = "50123321",
             MercadoPagoEmail = "mp@gmail.com"
@@ -55,7 +55,7 @@ internal sealed class DonorsIdPut
         _endpoint.HttpContext.Response.StatusCode.Should().Be(200);
         _endpoint.Response.Id.Should().Be(donor.Id);
         _endpoint.Response.Email.Should().Be(request.Email);
-        _endpoint.Response.Phone.Should().Be(request.Phone);
+        _endpoint.Response.Phone.Should().Be($"+549{request.Phone}");
         _endpoint.Response.Name.Should().Be(request.Name);
         _endpoint.Response.IsGodFather.Should().Be(request.IsGodFather);
         _endpoint.Response.Dni.Should().Be(request.Dni);

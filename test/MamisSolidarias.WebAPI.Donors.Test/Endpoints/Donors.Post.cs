@@ -143,7 +143,7 @@ internal sealed class DonorsPostTest
         Donor donor = DataFactory.GetDonor().WithId(0);
         
         _mockDbService.Setup(t => t.CreateDonor(
-                It.Is<Donor>(r => r.Phone == donor.Phone),
+                It.Is<Donor>(r => r.Phone!.EndsWith(donor.Phone!)),
                 It.IsAny<CancellationToken>()
             )
         ).ThrowsAsync(new UniqueConstraintException());

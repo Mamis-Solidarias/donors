@@ -11,7 +11,7 @@ internal sealed class DonorBuilder
         .RuleFor(t => t.Id, f => f.Random.Int())
         .RuleFor(t => t.Name, f => f.Name.FindName())
         .RuleFor(t => t.Email, f => f.Internet.Email())
-        .RuleFor(t => t.Phone, f => f.Phone.PhoneNumber("+549##########"))
+        .RuleFor(t => t.Phone, f => f.Phone.PhoneNumber("##########"))
         .RuleFor(t => t.IsGodFather, f => f.Random.Bool())
         .RuleFor(t=> t.MercadoPagoEmail, f => f.Internet.Email())
         .RuleFor(t=> t.Dni, f => f.Random.Int(1000000, 99999999).ToString())

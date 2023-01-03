@@ -10,20 +10,18 @@
 
     <ItemGroup>
         <PackageReference Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="6.0.3" />
-        <PackageReference Include="FastEndpoints" Version="5.5.0" />
-        <PackageReference Include="FastEndpoints.Generator" Version="5.5.0">
+        <PackageReference Include="FastEndpoints.Generator" Version="5.6.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FastEndpoints.Security" Version="5.5.0" />
-        <PackageReference Include="FastEndpoints.Swagger" Version="5.5.0" />
+        <PackageReference Include="FastEndpoints.Swagger" Version="5.6.0" />
         <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.15.2" />
         <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.15.2" />
         <PackageReference Include="HotChocolate.Diagnostics" Version="12.15.2" />
         <PackageReference Include="HotChocolate.Stitching" Version="12.15.2" />
         <PackageReference Include="HotChocolate.Stitching.Redis" Version="12.15.2" />
         <PackageReference Include="libphonenumber-csharp" Version="8.13.3" />
-        <PackageReference Include="MamisSolidarias.Utils" Version="1.4.3" />
+        <PackageReference Include="MamisSolidarias.Utils" Version="1.4.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

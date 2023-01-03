@@ -18,9 +18,10 @@ internal static class AuthExtensions
             throw new ArgumentException("Jwt options not found. Please check your configuration.");
         }
 
-        services.AddAuthenticationJWTBearer(options.Key, options.Issuer);
+        services.AddJWTBearerAuth(options.Key,
+            tokenValidation: parameters => parameters.ValidIssuer = options.Issuer);
         services.AddAuthorization(t => t.ConfigurePolicies(Services.Donors));
     }
 
-    private record JwtOptions(string Key, string Issuer);
+    private sealed record JwtOptions(string Key, string Issuer);
 }

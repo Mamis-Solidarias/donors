@@ -17,7 +17,10 @@ public class Donors
     [UseSorting]
     public IQueryable<Donor> GetDonors(DonorsDbContext dbContext, DonorFilters? filters = null)
     {
-        var query = dbContext.Donors.AsNoTracking().AsQueryable();
+        var query = dbContext.Donors.AsNoTracking()
+            .OrderBy(t=> t.Id)
+            .AsQueryable();
+        
         if (filters is null)
             return query;
 

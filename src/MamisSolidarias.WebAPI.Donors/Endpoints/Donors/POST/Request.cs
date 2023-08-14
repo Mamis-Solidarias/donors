@@ -80,7 +80,8 @@ internal class RequestValidator : Validator<Request>
             .WithMessage("El email de Mercado Pago no puede tener más de 200 caracteres");
 
         RuleFor(t => t.Dni)
-            .Matches(@"^\d{7,8}$")
+            .NotNull().WithMessage("Es obligatorio indicar el DNI del donante")
+            .Matches(@"^\d{1,2}\.?\d\d\d\.?\d\d\d$")
             .When(t => t.Dni is not null).WithMessage("El DNI no tiene un formato válido");
     }
 }

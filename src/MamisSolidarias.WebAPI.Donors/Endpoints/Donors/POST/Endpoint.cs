@@ -45,7 +45,7 @@ internal sealed class Endpoint : Endpoint<Request, Response>
             Phone = req.Phone.ParsePhoneNumber(),
             IsGodFather = req.IsGodFather,
             CreatedBy = req.UserId,
-            Dni = req.Dni.PrepareForDb(),
+            Dni = req.Dni?.Replace(".","").PrepareForDb(),
             MercadoPagoEmail = req.MercadoPagoEmail.PrepareForDb()
         };
     }

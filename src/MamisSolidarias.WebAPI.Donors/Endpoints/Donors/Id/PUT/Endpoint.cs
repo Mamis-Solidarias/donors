@@ -36,7 +36,7 @@ internal sealed class Endpoint : Endpoint<Request, Response>
             donor.Phone = req.Phone.ParsePhoneNumber();
             donor.IsGodFather = req.IsGodFather;
             donor.MercadoPagoEmail = req.MercadoPagoEmail.PrepareForDb();
-            donor.Dni = req.Dni.PrepareForDb();
+            donor.Dni = req.Dni?.Replace(".","").PrepareForDb();
 
             await _db.SaveChangesAsync(ct);
             await SendOkAsync(new Response(donor.Id, donor.Dni,donor.Name, donor.Email,donor.MercadoPagoEmail, donor.Phone, donor.IsGodFather), ct);

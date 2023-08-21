@@ -12,7 +12,7 @@ public class Donors
     public record DonorFilters(bool? IsGodFather, int? OwnerId, string? Name);
 
     [Authorize(Policy = "CanRead")]
-    [UsePaging]
+    [UsePaging(IncludeTotalCount = true, MaxPageSize = 500)]
     [UseFiltering]
     [UseSorting]
     public IQueryable<Donor> GetDonors(DonorsDbContext dbContext, DonorFilters? filters = null)
